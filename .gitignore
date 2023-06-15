@@ -1,0 +1,17 @@
+__pycache__/
+
+.env
+
+temp_env/
+
+chat_response_log.txt
+
+db.sqlite3
+
+fly.toml
+
+Dockerfile
+
+.dockerignore
+
+staticfiles

@@ -1,0 +1,37 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+
+{% block title %}{% endblock %}
+{% block decription %}{% endblock %}
+{% block keywords %}{% endblock %}
+
+{% block extend_header %}{% endblock %}
+
+{% block extend_footer %}{% endblock %}
+
+{% block content %}
+<section>
+  <div class="innerPageBannerCol">
+    <div class="container">
+      <div class="row g-4 g-md-3  align-items-center">
+        <div class="col-md-6">
+          <div class="bannerContent">
+            <h1 class="xlTitle pb-md-3">{{object.name}}</h1>
+          </div>
+          <div class="projectsImgCol">
+            <img src="{{object.image.url}}" alt="..."></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sectionSpaceSm">
+    <div class="container">
+      {{object.body|safe}}
+    </div>
+  </div>
+</section>
+{%endblock%}

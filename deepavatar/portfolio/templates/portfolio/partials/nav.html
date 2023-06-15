@@ -1,0 +1,28 @@
+{% load static %}
+<header>
+    <div class="headerCol">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+        <div class="col-auto">
+            <div class="logoCol"><a href="{% url 'portfolio:home' %}"><img src="{% static 'images/coffee_logo.png' %}" alt="..."></a></div>
+        </div>
+        <div class="col">
+            <div class="d-md-none">
+            <button class="navToggle">
+                <span class="navToggle__text">Toggle Menu</span>
+            </button>
+            </div>
+            <div class="navCollapseCol">
+            <div class="navCol">
+                <ul>
+                <li><a href="{%url 'portfolio:home'%}">Home</a></li>
+                <li><a href="{%url 'portfolio:projects' %}">Projects</a></li>
+                <li><a href="{%url 'portfolio:contact'%}">Contact</a></li>
+                </ul>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</header>

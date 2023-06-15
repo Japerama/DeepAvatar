@@ -1,0 +1,323 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+
+{% block title %}{% endblock %}
+{% block decription %}{% endblock %}
+{% block keywords %}{% endblock %}
+
+{% block extend_header %}{% endblock %}
+
+{% block extend_footer %}{% endblock %}
+
+{% block content %}
+<div class="row">
+<section>
+  <div class="bannerSection">
+    <div class="container">
+      <div class="row g-4 g-md-3  align-items-center">
+        <div class="col-md">
+          <div class="bannerContent">
+            <h1 class="xlTitle pb-3">Hi, I’m {{me.first_name|title}} {{me.last_name|title}}. <br> A {{me.userprofile.title}} </br></h1>
+            <p>{{me.userprofile.bio}}</p>
+            <div class="bannerBtnCol">
+              <div class="row">
+                <div class="col-auto">
+                  <a download href="{{me.userprofile.cv.url}}" class="btn btnPrimary">Download Resume</a>
+                </div>
+                <div class="col-auto">
+                  <a href="{% url 'portfolio:contact' %}" class="btn btnOutline">Contact</a>
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col-auto">
+                  <button type="button" class="btn btnOutline" id="start_avatar_chat">Start Chat</button>
+                </div> 
+                <div class="col-auto">
+                  <button type="button" class="btn btnOutline" id="user_question_submit" style="display:none" >Ask Me!</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-auto">
+                  <textarea id="user_question_text" rows="2" cols="200" style="display:none; width: 500px;" placeholder="Ask me a question about myself... powered by OpenAI"></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-auto">
+                  <img id="my_avatar_loading_gif" src="{% static 'images/loading.gif' %}" style="display:none; width: 40px;">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md">
+          <div class="row">
+            <video id="my_avatar_video" width="300px" style="display: none;" autoplay muted playsinline src=""></video>
+            <img id="my_avatar_waiting" width="300px" src="{% static 'images/waiting.png' %}">
+            <!-- <div class="bannerUserImg"> -->
+              <!-- <img id="my_avatar" src="{% static 'images/waiting.gif' %}" class="img-fluid" alt="{{me.first_name|title}} {{me.last_name|title}} avatar"> -->
+              <!-- <video id="my_avatar_video" class="video" preload="auto" width="640" height="265" src="{% static 'images/waiting.gif' %}"></video> -->
+              <!-- <video id="my_avatar_video" class="video" preload="auto" width="640" height="265" src="s3://avatar-digital-twin-bucket/pumpkins.mp4"></video> -->
+              <!-- <video id="my_avatar_video" width="300px" preload="metadata" controls poster="{% static 'images/waiting.png' %}" autoplay muted playsinline src=""></video> -->
+              
+              <!-- <center><div class="btn-group" style="width: 500px;">
+                
+                
+              </div></center>
+               -->
+            <!-- </div> -->
+          </div>
+          <input type="hidden" id="feed_object_id" value="OFF" style="display:none" />
+          <input type="hidden" id="started_asking_questions" value="False" style="display:none" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+<div class="row">
+<section>
+  <div class="sectionSpace pt-0">
+    <div class="container">
+      <div class="row">
+        <!-- <div class="col-md-auto">
+          <div class="keySkillCol">
+            <h4 class="smTitle pb-3">Key Skills</h4>
+            {% for sk in skills %}
+            {% if sk.is_key_skill %}
+            <div class="keySkillCard">
+              {% if sk.image %}
+              <div class="ksIconCol">
+                <img src="{{sk.image.url}}" alt="...">
+              </div>
+              {% endif %}
+              <span class="ksText">{{sk.name}}</span>
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div> -->
+        <div class="col-md">
+          <h4 class="smTitle pb-3">Coding Skills</h4>
+          <div class="progressCol">
+            <div class="progressCard" style="overflow-y: auto; overflow-x: hidden; max-height: 500px;">
+              {% for sk in skills %}
+              {% if sk.is_key_skill %}
+              <div class="progressCol">
+                <span class="progressLbl">{{sk.name}}</span>
+                <div class="row g-2 align-items-center">
+                  <div class="col">
+                    <div class="progress progressStyle">
+                      <div class="progress-bar" role="progressbar" style="width: {{sk.score}}%" aria-valuenow="{{sk.score}}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <span class="pLbl">{{sk.score}}%</span>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+              {% endfor %}
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+<div class="row">
+<section>
+  <div class="sectionSpaceSm lightBg">
+    <div class="container">
+      <div class="row pb-3">
+        <div class="col">
+          <h4 class="smText regular">Qualifications & Awards</h4>
+        </div>
+
+      </div>
+      <div class="sliderOuter">
+        <div class="swiper certificatesSlider">
+          <div class="swiper-wrapper">
+            {% for c in certificates %}
+            {% if c.is_active %}
+            <div class="swiper-slide">
+              <div class="cardStyle1">
+                <h4 class="mdTitle cs1Title">
+                  <a href="javascript:void(0)">{{c.title}}</a>
+                </h4>
+                <ul class="cardOptionCol">
+                  <li>{{c.date.date}}</li>
+                  <li>{{c.name|title}}</li>
+                </ul>
+                <p>{{c.description}}</p>
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            
+          </div>
+        </div>            
+        <div class="cert-swiper-button-next swiper-button-next swiperBtnStyle"></div>
+        <div class="cert-swiper-button-prev swiper-button-prev swiperBtnStyle"></div>
+        <div class="swiper-pagination swiperPaginationStyle posInitial"></div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+<div class="row">
+<section>
+  <div class="sectionSpace">
+    <div class="container">
+      <div class="projectsCol">
+        <div class="row pb-3">
+          <div class="col">
+            <h4 class="smText regular">Featured Work</h4>
+          </div>
+          <div class="col-auto">
+            <a href="{% url 'portfolio:projects' %}" class="simpleLink">View all</a>
+          </div>
+        </div>
+        {% for p in projects %}
+        {% if p.is_active %}
+        <div class="projectsCard">
+          <div class="row g-4 align-items-center">
+            <div class="col-md-auto">
+              <div class="projectsImgCol">
+                <a href="{% url 'portfolio:projects' slug=p.slug %}"><img src="{{p.image.url}}" alt="..."></a>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="projectsContentCol">
+                <h4 class="lgTitle"><a href="{% url 'portfolio:projects' slug=p.slug %}">{{p.name}}</a></h4>
+                <ul class="projectsOption">
+                  <li><span class="dateLbl">{{p.date.year}}</span></li>
+                </ul>
+                <p>{{p.description}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+{% endblock %}
+{% block extra_js %}
+<script>
+  $("#start_avatar_chat").click(function(){
+    const video = document.getElementById('my_avatar_video');
+    video.muted = !video.muted
+    $.ajaxSetup({headers: { "X-CSRFToken": '{{csrf_token}}' }});
+    $.ajax({
+      type: "POST",
+      url: "{% url 'portfolio:start_avatar_chat_to_user' %}",
+      data: {
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        dataType: "json"
+      },
+      success: function(msg_avatar_chat) {
+        const object_id = msg_avatar_chat.the_feed_object_id;
+        $("#feed_object_id").val(object_id);
+        $("#started_asking_questions").val("False");
+        $('#user_question_text').show();
+        $('#user_question_submit').show();
+        $('#start_avatar_chat').prop('disabled', true);
+        // check_for_new_video_recurring(object_id);
+      },
+      failure: function() {
+      }
+    })
+  });
+
+  function check_for_new_video(object_id) {
+    // console.log("Checking for new video");
+    $.ajaxSetup({headers: { "X-CSRFToken": '{{csrf_token}}' }});
+    $.ajax({
+      type: "POST",
+      url: "{% url 'portfolio:check_for_new_posted_video' %}",
+      data: {
+        feed_object_id: $('#feed_object_id').val(),
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        dataType: "json"
+      },
+      success: function(msg_check_new_video) {
+        if (msg_check_new_video.new_video == "True") {
+          $('#my_avatar_loading_gif').hide();
+          
+          update_avatar(msg_check_new_video);
+        }   
+      },
+      failure: function() {
+      }
+    })
+    
+    // setTimeout(check_for_new_video(object_id), 10000);
+  };
+
+  function check_for_new_video_recurring(object_id) {
+    // check_for_new_video(object_id);
+    const intervalId = setInterval(check_for_new_video, 1000, object_id);
+    // setInterval(check_for_new_video(object_id), 1000);
+  };
+
+  check_for_new_video_recurring("None");
+
+  $("#user_question_submit").click(function(){
+    $('#my_avatar_loading_gif').show();
+    $.ajaxSetup({headers: { "X-CSRFToken": '{{csrf_token}}' }});
+    $.ajax({
+      type: "POST",
+      url: "{% url 'portfolio:get_avatar_response' %}",
+      data: {
+        user_question_text: $('#user_question_text').val(),
+        started_asking_questions: $('#started_asking_questions').val(),
+        feed_object_id: $('#feed_object_id').val(),
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        dataType: "json"
+      },
+      success: function(msg) {
+      },
+      failure: function() {
+      }
+    })
+  });
+</script>
+<script>
+  function update_avatar(msg_data) {
+    const video_path = msg_data.video_path;
+    $('#my_avatar_waiting').hide();
+    
+    // const the_url = ["/portfolio/update_avatar_feed/", video_number].join('');
+    $('#my_avatar_video').attr("src", video_path);
+    $('#my_avatar_video').show();
+  };
+</script>
+<script>
+  // var video = document.querySelector('my_avatar_video');       
+  // video.addEventListener('ended', function() {
+  //   video.load();     
+  // });
+  const video = document.getElementById('my_avatar_video');
+
+  video.addEventListener('ended', function () { 
+    // $('#my_avatar_video').attr("src", "");
+    $('#my_avatar_video').hide();
+    $('#my_avatar_waiting').show();
+    // video.autoplay=false; 
+    // video.load(); 
+  });
+
+  // function myHandler(e) {
+  //   //const video_waiting_gif = "{% static 'images/waiting.gif' %}"
+  //   $('#my_avatar_video')[0].load();
+  // }
+</script>
+{%endblock%}
